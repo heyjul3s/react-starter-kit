@@ -16,12 +16,3 @@ createRoot(document.getElementById("root")!).render(
     <RouterProvider router={router} />
   </StrictMode>,
 );
-
-{
-  /* <MaybeParent
-    condition={import.meta.env === "development" || import.meta.env === "dev"}
-    Parent={(children) => <StrictMode>{children}</StrictMode>}
-  >
-    <RouterProvider router={router} />
-  </MaybeParent>, */
-}
