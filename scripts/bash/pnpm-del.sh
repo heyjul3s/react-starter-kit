@@ -4,7 +4,7 @@
 set -e 
 
 # Source NVM to ensure we're using the correct Node version
-/bin/bash ./scripts/nvm-use.sh
+/bin/bash ./scripts/bash/nvm-use.sh
 
 # Guard clause to check if any packages were provided
 if [ $# -eq 0]; then
