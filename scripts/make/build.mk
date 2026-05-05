@@ -10,12 +10,12 @@ build-%:
 		./scripts/bash/build-ci.sh $*; \
 	else \
 		echo "Using standard build script"; \
-		pnpx vite build --emptyOutDir --config ./config/vite/vite.config.ts --mode $*; \
+		pnpx vite build --emptyOutDir --mode $*; \
 	fi
 
 build-analyze-%:
 	@echo "Building for environment with bundle analysis: $*"
-	ANALYZE=true pnpx vite build --emptyOutDir --config ./config/vite/vite.config.ts --mode $*
+	ANALYZE=true pnpx vite build --emptyOutDir --mode $*
 
 build-clean:
 	@echo "Cleaning build output directory"
@@ -27,4 +27,4 @@ build-stats-%:
 
 build-preview-%:
 	@echo "Starting preview server for: $*"
-	pnpx vite preview --config ./config/vite/vite.config.ts --mode $*
+	pnpx vite preview --mode $*
