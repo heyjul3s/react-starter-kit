@@ -7,13 +7,13 @@ NODE_ENV ?= $(ENV)
 
 .PHONY: help
 
-include make/build.mk
-include make/deps.mk
-include make/dev.mk
-include make/lint.mk
-include make/pnpm.mk
-include make/storybook.mk
-include make/test.mk
+include scripts/make/build.mk
+include scripts/make/deps.mk
+include scripts/make/dev.mk
+include scripts/make/lint.mk
+include scripts/make/pnpm.mk
+include scripts/make/storybook.mk
+include scripts/make/test.mk
 
 help:
 	@echo "Available targets:"
