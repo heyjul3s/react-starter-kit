@@ -1,0 +1,14 @@
+# 
+# Chromatic and Storybook targets
+# =======================================================================
+
+.PHONY: chromatic storybook storybook-open
+
+chromatic:
+	STORYBOOK_NODE_ENV=develop NODE_OPTIONS="--max-old-space-size=6144" pnpx chromatic --exit-zero-on-changes --exit-once-uploaded --only-changed
+
+storybook:
+	./script/nvm-use.sh && pnpx storybook dev -p 6006 --no-open
+
+storybook-open:
+	./script/nvm-use.sh && pnpx storybook dev -p 6006
