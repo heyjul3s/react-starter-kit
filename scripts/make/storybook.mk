@@ -8,7 +8,7 @@ chromatic:
 	STORYBOOK_NODE_ENV=develop NODE_OPTIONS="--max-old-space-size=6144" pnpx chromatic --exit-zero-on-changes --exit-once-uploaded --only-changed
 
 storybook:
-	./script/bash/nvm-use.sh && pnpx storybook dev -p 6006 --no-open
+	./scripts/bash/nvm-use.sh && pnpm exec storybook dev -p 6006 --no-open
 
 storybook-open:
-	./script/bash/nvm-use.sh && pnpx storybook dev -p 6006
+	./scripts/bash/nvm-use.sh && pnpm exec storybook dev -p 6006
