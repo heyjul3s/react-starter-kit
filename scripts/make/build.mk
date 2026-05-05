@@ -7,7 +7,7 @@ build-%:
 	@echo "Building for environment: $*"
 	@if [ "$$CI" = "true" ]; then \
 		echo "Using CI-optimized build script"; \
-		./scripts/build-ci.sh $*; \
+		./scripts/bash/build-ci.sh $*; \
 	else \
 		echo "Using standard build script"; \
 		pnpx vite build --emptyOutDir --config ./config/vite/vite.config.ts --mode $*; \

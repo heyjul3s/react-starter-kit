@@ -11,15 +11,15 @@ IS_NVM_EXISTS := $(shell test -f $(NVM); echo $$?)
 # Install commands
 clean:
 	@echo "Cleaning node_modules and PNPM artifacts..."
-	./scripts/pnpm-clean.sh
+	./scripts/bash/pnpm-clean.sh
 
 install:
 	@echo "Installing dependencies with PNPM..."
-	./scripts/pnpm-install.sh
+	./scripts/bash/pnpm-install.sh
 
 reinstall:
 	@echo "Reinstalling dependencies with PNPM..."
-	@./scripts/nvm-use.sh && pnpm install --force
+	@./scripts/bash/nvm-use.sh && pnpm install --force
 
 # Package mamagement commands
 add:
@@ -29,7 +29,7 @@ add:
 		exit 1; \
 	fi
 	@echo "Adding packages: $(filter-out $@,$(MAKECMDGOALS))"
-	@./scripts/pnpm-add.sh $(filter-out $@,$(MAKECMDGOALS))
+	@./scripts/bash/pnpm-add.sh $(filter-out $@,$(MAKECMDGOALS))
 
 add-dev:
 	@if [ "$(filter-out $@,$(MAKECMDGOALS))" = "" ]; then \
@@ -38,7 +38,7 @@ add-dev:
 		exit 1; \
 	fi
 	@echo "Adding dev packages: $(filter-out $@,$(MAKECMDGOALS))"
-	@./scripts/pnpm-add.sh $(filter-out $@,$(MAKECMDGOALS)) -D
+	@./scripts/bash/pnpm-add.sh $(filter-out $@,$(MAKECMDGOALS)) -D
 
 del:
 	@if [ "$(filter-out $@,$(MAKECMDGOALS))" = "" ]; then \
@@ -47,39 +47,39 @@ del:
 		exit 1; \
 	fi
 	@echo "Removing packages: $(filter-out $@,$(MAKECMDGOALS))"
-	@./scripts/pnpm-del.sh $(filter-out $@,$(MAKECMDGOALS))
+	@./scripts/bash/pnpm-del.sh $(filter-out $@,$(MAKECMDGOALS))
 
 # List dependencies
 list:
 	@echo "Listing all dependencies..."
-	@./scripts/nvm-use.sh && pnpm list --depth=0
+	@./scripts/bash/nvm-use.sh && pnpm list --depth=0
 
 list-dev:
 	@echo "Listing dev dependencies..."
-	@./scripts/nvm-use.sh && pnpm list --depth=0 --dev
+	@./scripts/bash/nvm-use.sh && pnpm list --depth=0 --dev
 
 list-prod:
 	@echo "Listing production dependencies..."
-	@./scripts/nvm-use.sh && pnpm list --depth=0 --prod
+	@./scripts/bash/nvm-use.sh && pnpm list --depth=0 --prod
 
 outdated:
 	@echo "Checking for outdated dependencies..."
-	@./scripts/nvm-use.sh && pnpm outdated
+	@./scripts/bash/nvm-use.sh && pnpm outdated
 
 update:
 	@echo "Updating dependencies to latest versions..."
-	@./scripts/nvm-use.sh && pnpm update
+	@./scripts/bash/nvm-use.sh && pnpm update
 
 update-check:
 	@echo "Checking for updates without installing..."
-	@./scripts/nvm-use.sh && pnpm outdated
+	@./scripts/bash/nvm-use.sh && pnpm outdated
 
 #  PNPM specific commands
 store-prune:
 	@echo "Pruning PNPM store to remove old packages..."
-	@./scripts/nvm-use.sh && pnpm store prune
+	@./scripts/bash/nvm-use.sh && pnpm store prune
 
 store-status:
 	@echo "Checking PNPM store status..."
-	@./scripts/nvm-use.sh && pnpm store status
+	@./scripts/bash/nvm-use.sh && pnpm store status
 	
