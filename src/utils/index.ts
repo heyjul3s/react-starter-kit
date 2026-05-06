@@ -1,1 +1,1 @@
-export { request } from "./request/request";
+export { request } from './request/request';

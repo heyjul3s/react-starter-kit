@@ -12,7 +12,7 @@ function Index() {
   return (
     <Layout>
       <div className="p-2">
-        <h3>Welcome Home!</h3>
+        <h1>Welcome Home!</h1>
       </div>
     </Layout>
   );

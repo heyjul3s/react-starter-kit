@@ -11,7 +11,7 @@ function About() {
 
   return (
     <Layout>
-      <div>Hello "/about"!</div>
+      <div>About</div>
     </Layout>
   );
 }
