@@ -3,9 +3,9 @@
 # Wrapper script to run dev commands and pass through CLI args
 # Usage: ./scripts/run-dev.sh [mode] [additional args]
 
-source "./scripts/env-utils.sh"
+source "./scripts/bash/utils-env.sh"
 
-parse_environment_mode "$1" "dev" "run-dev.sh" "Start dev server"
+parse_environment_mode "$1" "develop" "run-dev.sh" "Start dev server"
 
 # Remove the first argument (mode) so that $@ now contains only additional arguments
 shift 
@@ -15,4 +15,3 @@ make dev-$MODE "$@"
 
 # Return exit code from dev command
 exit $?
-

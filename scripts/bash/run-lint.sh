@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source "./scripts/utils-scripts.sh"
+source "./scripts/bash/utils-scripts.sh"
 
 show_help() {
   show_script_help "run-lint.sh" "Lint wrapper script" "Run all linters" \
@@ -17,7 +17,7 @@ show_help() {
     "types:Run TypeScript type checker"
 }
 
-COMMAND=$!
+COMMAND=$1
 shift
 
 if [ -z "$COMMAND" ]; then

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source "./scripts/utils-scripts.sh"
+source "./scripts/bash/utils-scripts.sh"
 
 show_help() {
   show_script_help "run-deps.sh" "Dependency check wrapper script" "Run all dependency checks" \

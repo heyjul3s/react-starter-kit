@@ -3,9 +3,9 @@
 # Wrapper script to run build commands and pass through CLI
 # Usage: ./scripts/run-build.sh [mode] [additional args]
 
-source "./scripts/env-utils.sh"
+source "./scripts/bash/utils-env.sh"
 
-parse_environment_mode "$1" "dev" "run-build.sh" "Build"
+parse_environment_mode "$1" "develop" "run-build.sh" "Build"
 
 # Remove the first argument (mode) so that $@ now contains only additional arguments
 shift 
@@ -15,4 +15,3 @@ make build-$MODE "$@"
 
 # Return exit code from dev command
 exit $?
-

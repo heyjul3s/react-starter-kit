@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source "./scripts/utils-scripts.sh"
+source "./scripts/bash/utils-scripts.sh"
 
 show_help() {
   show_script_help "run-test.sh" "Test wrapper script" "Run all tests" \
