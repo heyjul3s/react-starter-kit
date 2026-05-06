@@ -29,7 +29,7 @@ export default defineConfig(({ mode = 'development' }: ConfigEnv): UserConfig =>
       cors: true,
     },
     plugins: viteConfigPlugins(env),
-    resolve: viteConfigResolve(env),
+    resolve: viteConfigResolve(),
     server: viteConfigServer(env),
   };
 });
