@@ -1,7 +1,10 @@
+// NOTE: mkcert is commented out, if you are OK with using this
+// simply uncomment
+
 import path from 'path';
 import react from '@vitejs/plugin-react';
 import { tanstackRouter } from '@tanstack/router-plugin/vite';
-import mkcert from 'vite-plugin-mkcert';
+// import mkcert from 'vite-plugin-mkcert';
 import removeAttributes from 'rollup-plugin-jsx-remove-attributes';
 
 import type { GetViteEnvResult } from './vite.env';
@@ -22,7 +25,7 @@ export function viteConfigPlugins(env: GetViteEnvResult): UserConfig['plugins'] 
       include: 'src/**/*.{js,jsx,ts,tsx}',
       jsxImportSource: undefined,
     }),
-    ...(!env.isProd ? [mkcert()] : []),
+    // ...(!env.isProd ? [mkcert()] : []),
     ...(env.isProd ? [removeAttributes({ attributes: ['data-testid'] })] : []),
   ];
 }
