@@ -9,7 +9,7 @@ export default {
     'stylelint-selector-bem-pattern',
     'stylelint-no-unsupported-browser-features',
     'stylelint-plugin-defensive-css',
-    'styelint-order',
+    'stylelint-order',
   ],
   rules: {
     'at-rule-no-unknown': null,
