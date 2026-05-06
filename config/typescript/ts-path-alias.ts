@@ -1,16 +1,24 @@
-import path from "path";
-import tsconfig from "../../tsconfig.json" assert { type: "json " };
+import path from 'path';
+import tsconfig from '../../tsconfig.json' assert { type: 'json ' };
 
-export function tsPathAlias() {
-  const paths = tsconfig?.compilerOptions.paths;
-  const pathAliases = Object.keys(paths);
+export function tsPathAlias(): Record<string, string> {
+  const paths = (tsconfig as any)?.compilerOptions?.paths as Record<string, string[]> | undefined;
 
-  return pathAliases?.length
-    ? pathAliases.reduce((configPaths, pathAlias) => {
-        return {
-          ...configPaths,
-          [pathAlias]: path.resolve(__dirname, paths[`${pathAlias}`].at(0)),
-        };
-      }, {})
-    : {};
+  if (!paths || Object.keys(paths).length === 0) {
+    return {};
+  }
+
+  return Object.keys(paths).reduce<Record<string, string>>((acc, alias) => {
+    const targets = paths[alias];
+
+    if (!targets || targets.length === 0) {
+      return acc;
+    }
+
+    const key = alias.replace(/\/\*$/u, '');
+    const rawTarget = String(targets[0]).replace(/\/\*$/u, '');
+
+    acc[key] = path.resolve(process.cwd(), rawTarget);
+    return acc;
+  }, {});
 }
