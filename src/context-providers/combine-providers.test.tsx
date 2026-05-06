@@ -1,8 +1,8 @@
-import { render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
-import { combineProviders } from "./combine-providers";
+import { render, screen } from '@testing-library/react';
+import { describe, expect, it } from 'vitest';
+import { combineProviders } from './combine-providers';
 
-import type { ContextProviders } from "./combine-providers";
+import type { ContextProviders } from './combine-providers';
 
 type Mock1ProviderProps = {
   children: React.ReactNode;
@@ -37,18 +37,16 @@ const MockProvider3 = ({ children, enabled }: Mock3ProviderProps) => (
   </div>
 );
 
-const TestComponent = () => (
-  <div data-testid="test-component">Test Content</div>
-);
+const TestComponent = () => <div data-testid="test-component">Test Content</div>;
 
-describe("combineProviders", () => {
-  describe("Basic Functionality", () => {
-    it("should return a function when called with empty providers array", () => {
+describe('combineProviders', () => {
+  describe('Basic Functionality', () => {
+    it('should return a function when called with empty providers array', () => {
       const CombinedProviders = combineProviders([]);
-      expect(typeof CombinedProviders).toBe("function");
+      expect(typeof CombinedProviders).toBe('function');
     });
 
-    it("should render children when no providers are given", () => {
+    it('should render children when no providers are given', () => {
       const CombinedProviders = combineProviders([]);
 
       render(
@@ -57,14 +55,12 @@ describe("combineProviders", () => {
         </CombinedProviders>,
       );
 
-      expect(screen.getByTestId("test-component")).toBeInTheDocument();
-      expect(screen.getByText("Test Content")).toBeInTheDocument();
+      expect(screen.getByTestId('test-component')).toBeInTheDocument();
+      expect(screen.getByText('Test Content')).toBeInTheDocument();
     });
 
-    it("should render children wrapped in a single provider", () => {
-      const CombinedProviders = combineProviders([
-        [MockProvider1, { testProp: "test-value" }],
-      ]);
+    it('should render children wrapped in a single provider', () => {
+      const CombinedProviders = combineProviders([[MockProvider1, { testProp: 'test-value' }]]);
 
       render(
         <CombinedProviders>
@@ -72,19 +68,16 @@ describe("combineProviders", () => {
         </CombinedProviders>,
       );
 
-      expect(screen.getByTestId("test-component")).toBeInTheDocument();
-      expect(screen.getByTestId("provider-1")).toBeInTheDocument();
-      expect(screen.getByTestId("provider-1")).toHaveAttribute(
-        "data-prop",
-        "test-value",
-      );
+      expect(screen.getByTestId('test-component')).toBeInTheDocument();
+      expect(screen.getByTestId('provider-1')).toBeInTheDocument();
+      expect(screen.getByTestId('provider-1')).toHaveAttribute('data-prop', 'test-value');
     });
   });
 
-  describe("Multiple Providers", () => {
-    it("should nest multiple providers in the correct order", () => {
+  describe('Multiple Providers', () => {
+    it('should nest multiple providers in the correct order', () => {
       const CombinedProvider = combineProviders([
-        [MockProvider1, { testProp: "value1" }],
+        [MockProvider1, { testProp: 'value1' }],
         [MockProvider2, { value: 42 }],
         [MockProvider3, { enabled: true }],
       ]);
@@ -95,23 +88,23 @@ describe("combineProviders", () => {
         </CombinedProvider>,
       );
 
-      expect(screen.getByTestId("provider-1")).toBeInTheDocument();
-      expect(screen.getByTestId("provider-2")).toBeInTheDocument();
-      expect(screen.getByTestId("provider-3")).toBeInTheDocument();
-      expect(screen.getByTestId("test-component")).toBeInTheDocument();
+      expect(screen.getByTestId('provider-1')).toBeInTheDocument();
+      expect(screen.getByTestId('provider-2')).toBeInTheDocument();
+      expect(screen.getByTestId('provider-3')).toBeInTheDocument();
+      expect(screen.getByTestId('test-component')).toBeInTheDocument();
 
-      const provider1 = screen.getByTestId("provider-1");
-      const provider2 = screen.getByTestId("provider-2");
-      const provider3 = screen.getByTestId("provider-3");
+      const provider1 = screen.getByTestId('provider-1');
+      const provider2 = screen.getByTestId('provider-2');
+      const provider3 = screen.getByTestId('provider-3');
 
       expect(provider1).toContainElement(provider2);
       expect(provider2).toContainElement(provider3);
-      expect(provider3).toContainElement(screen.getByTestId("test-component"));
+      expect(provider3).toContainElement(screen.getByTestId('test-component'));
     });
 
-    it("should pass props correctly to each provider", () => {
+    it('should pass props correctly to each provider', () => {
       const CombinedProvider = combineProviders([
-        [MockProvider1, { testProp: "first-provider" }],
+        [MockProvider1, { testProp: 'first-provider' }],
         [MockProvider2, { value: 123 }],
         [MockProvider3, { enabled: false }],
       ]);
@@ -122,29 +115,17 @@ describe("combineProviders", () => {
         </CombinedProvider>,
       );
 
-      expect(screen.getByTestId("provider-1")).toHaveAttribute(
-        "data-prop",
-        "first-provider",
-      );
+      expect(screen.getByTestId('provider-1')).toHaveAttribute('data-prop', 'first-provider');
 
-      expect(screen.getByTestId("provider-2")).toHaveAttribute(
-        "data-prop",
-        "123",
-      );
+      expect(screen.getByTestId('provider-2')).toHaveAttribute('data-prop', '123');
 
-      expect(screen.getByTestId("provider-3")).toHaveAttribute(
-        "data-enabled",
-        "false",
-      );
+      expect(screen.getByTestId('provider-3')).toHaveAttribute('data-enabled', 'false');
     });
   });
 
-  describe("Props Handling", () => {
-    it("should handle providers without props", () => {
-      const CombinedProviders = combineProviders([
-        [MockProvider1],
-        [MockProvider2, { value: 99 }],
-      ]);
+  describe('Props Handling', () => {
+    it('should handle providers without props', () => {
+      const CombinedProviders = combineProviders([[MockProvider1], [MockProvider2, { value: 99 }]]);
 
       render(
         <CombinedProviders>
@@ -152,15 +133,12 @@ describe("combineProviders", () => {
         </CombinedProviders>,
       );
 
-      expect(screen.getByTestId("provider-1")).toBeInTheDocument();
-      expect(screen.getByTestId("provider-2")).toBeInTheDocument();
-      expect(screen.getByTestId("provider-1")).toHaveAttribute(
-        "data-value",
-        "99",
-      );
+      expect(screen.getByTestId('provider-1')).toBeInTheDocument();
+      expect(screen.getByTestId('provider-2')).toBeInTheDocument();
+      expect(screen.getByTestId('provider-2')).toHaveAttribute('data-prop', '99');
     });
 
-    it("should handle empty props object", () => {
+    it('should handle empty props object', () => {
       const CombinedProviders = combineProviders([
         [MockProvider1, {}],
         [MockProvider2, { value: 0 }],
@@ -172,18 +150,15 @@ describe("combineProviders", () => {
         </CombinedProviders>,
       );
 
-      expect(screen.getByTestId("provider-1")).toBeInTheDocument();
-      expect(screen.getByTestId("provider-2")).toHaveAttribute(
-        "data-value",
-        "0",
-      );
+      expect(screen.getByTestId('provider-1')).toBeInTheDocument();
+      expect(screen.getByTestId('provider-2')).toHaveAttribute('data-prop', '0');
     });
 
-    it("should handle complex props object", () => {
+    it('should handle complex props object', () => {
       const complexProps = {
         arrayProp: [1, 2, 3],
-        nestedObject: { key: "value" },
-        testProp: "complex-value",
+        nestedObject: { key: 'value' },
+        testProp: 'complex-value',
       };
 
       const MockComplexProvider = ({
@@ -207,9 +182,7 @@ describe("combineProviders", () => {
         </div>
       );
 
-      const CombinedProvider = combineProviders([
-        [MockComplexProvider, complexProps],
-      ]);
+      const CombinedProvider = combineProviders([[MockComplexProvider, complexProps]]);
 
       render(
         <CombinedProvider>
@@ -217,15 +190,15 @@ describe("combineProviders", () => {
         </CombinedProvider>,
       );
 
-      const provider = screen.getByTestId("complex-provider");
-      expect(provider).toHaveAttribute("data-prop", "complex-value");
-      expect(provider).toHaveAttribute("data-nested", "value");
-      expect(provider).toHaveAttribute("data-array-length", "3");
+      const provider = screen.getByTestId('complex-provider');
+      expect(provider).toHaveAttribute('data-prop', 'complex-value');
+      expect(provider).toHaveAttribute('data-nested', 'value');
+      expect(provider).toHaveAttribute('data-array-length', '3');
     });
   });
 
-  describe("Edge Cases", () => {
-    it("should handle providers that modify children", () => {
+  describe('Edge Cases', () => {
+    it('should handle providers that modify children', () => {
       const WrapperProvider = ({ children }: { children: React.ReactNode }) => (
         <div data-testid="wrapper">
           <span data-testid="wrapper-prefix">Wrapped: </span>
@@ -241,12 +214,12 @@ describe("combineProviders", () => {
         </CombinedProvider>,
       );
 
-      expect(screen.getByTestId("wrapper")).toBeInTheDocument();
-      expect(screen.getByTestId("wrapper-prefix")).toBeInTheDocument();
-      expect(screen.getByTestId("test-component")).toBeInTheDocument();
+      expect(screen.getByTestId('wrapper')).toBeInTheDocument();
+      expect(screen.getByTestId('wrapper-prefix')).toBeInTheDocument();
+      expect(screen.getByTestId('test-component')).toBeInTheDocument();
     });
 
-    it("should handle providers with conditional rendering", () => {
+    it('should handle providers with conditional rendering', () => {
       const ConditionalProvider = ({
         children,
         show = true,
@@ -259,9 +232,7 @@ describe("combineProviders", () => {
         </div>
       );
 
-      const CombinedProviderVisible = combineProviders([
-        [ConditionalProvider, { show: true }],
-      ]);
+      const CombinedProviderVisible = combineProviders([[ConditionalProvider, { show: true }]]);
 
       const { rerender } = render(
         <CombinedProviderVisible>
@@ -269,12 +240,10 @@ describe("combineProviders", () => {
         </CombinedProviderVisible>,
       );
 
-      expect(screen.getByTestId("test-component")).toBeInTheDocument();
-      expect(screen.getByTestId("fallback")).not.toBeInTheDocument();
+      expect(screen.getByTestId('test-component')).toBeInTheDocument();
+      expect(screen.queryByTestId('fallback')).not.toBeInTheDocument();
 
-      const CombinedProviderHidden = combineProviders([
-        [ConditionalProvider, { show: false }],
-      ]);
+      const CombinedProviderHidden = combineProviders([[ConditionalProvider, { show: false }]]);
 
       rerender(
         <CombinedProviderHidden>
@@ -282,13 +251,13 @@ describe("combineProviders", () => {
         </CombinedProviderHidden>,
       );
 
-      expect(screen.queryByTestId("test-component")).not.toBeInTheDocument();
-      expect(screen.getByTestId("fallback")).toBeInTheDocument();
+      expect(screen.queryByTestId('test-component')).not.toBeInTheDocument();
+      expect(screen.getByTestId('fallback')).toBeInTheDocument();
     });
   });
 
-  describe("Provider Order", () => {
-    it("should maintain provider order with outermost provider first", () => {
+  describe('Provider Order', () => {
+    it('should maintain provider order with outermost provider first', () => {
       const OrderTrackingProvider = ({
         children,
         order,
@@ -302,9 +271,9 @@ describe("combineProviders", () => {
       );
 
       const CombinedProvider = combineProviders([
-        [OrderTrackingProvider, { order: "first " }],
-        [OrderTrackingProvider, { order: "second " }],
-        [OrderTrackingProvider, { order: "third " }],
+        [OrderTrackingProvider, { order: 'first ' }],
+        [OrderTrackingProvider, { order: 'second ' }],
+        [OrderTrackingProvider, { order: 'third ' }],
       ]);
 
       render(
@@ -313,22 +282,20 @@ describe("combineProviders", () => {
         </CombinedProvider>,
       );
 
-      const firstProvider = screen.getByTestId("order-first");
-      const secondProvider = screen.getByTestId("order-second");
-      const thirdProvider = screen.getByTestId("order-third");
+      const firstProvider = screen.getByTestId('order-first');
+      const secondProvider = screen.getByTestId('order-second');
+      const thirdProvider = screen.getByTestId('order-third');
 
       expect(firstProvider).toContainElement(secondProvider);
       expect(secondProvider).toContainElement(thirdProvider);
-      expect(thirdProvider).toContainElement(
-        screen.getByTestId("test-component"),
-      );
+      expect(thirdProvider).toContainElement(screen.getByTestId('test-component'));
     });
   });
 
-  describe("Function return value", () => {
-    it("should return a React component that accepts children prop", () => {
+  describe('Function return value', () => {
+    it('should return a React component that accepts children prop', () => {
       const CombinedProvider = combineProviders([[MockProvider1]]);
-      expect(typeof CombinedProvider).toBe("function");
+      expect(typeof CombinedProvider).toBe('function');
 
       expect(() => {
         render(
@@ -339,7 +306,7 @@ describe("combineProviders", () => {
       }).not.toThrow();
     });
 
-    it("should create a new component instance each time it is called", () => {
+    it('should create a new component instance each time it is called', () => {
       const providers: ContextProviders = [[MockProvider1]];
       const CombinedProvider1 = combineProviders(providers);
       const CombinedProvider2 = combineProviders(providers);
@@ -347,16 +314,13 @@ describe("combineProviders", () => {
     });
   });
 
-  describe("Performance and memory", () => {
-    it("should handle large number of providers efficiently", () => {
-      const manyProviders: ContextProviders = Array.from(
-        { length: 10 },
-        (_, i) => [
-          ({ children }: { children: React.ReactNode }) => (
-            <div data-testid={`provider-${i}`}>{children}</div>
-          ),
-        ],
-      );
+  describe('Performance and memory', () => {
+    it('should handle large number of providers efficiently', () => {
+      const manyProviders: ContextProviders = Array.from({ length: 10 }, (_, i) => [
+        ({ children }: { children: React.ReactNode }) => (
+          <div data-testid={`provider-${i}`}>{children}</div>
+        ),
+      ]);
 
       const CombinedProvider = combineProviders(manyProviders);
 
@@ -370,7 +334,7 @@ describe("combineProviders", () => {
         expect(screen.getByTestId(`provider-${i}`)).toBeInTheDocument();
       }
 
-      expect(screen.getByTestId("test-component")).toBeInTheDocument();
+      expect(screen.getByTestId('test-component')).toBeInTheDocument();
     });
   });
 });
