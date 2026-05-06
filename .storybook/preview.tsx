@@ -1,5 +1,5 @@
 import { initialize, mswLoader } from 'msw-storybook-addon';
-import { handlers } from '../src/__handlers__';
+import { handlers } from '../__handlers__';
 import type { Preview } from '@storybook/react-vite';
 import { withDecorators } from './decorators/with-decorators';
 

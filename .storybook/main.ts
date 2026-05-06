@@ -44,6 +44,9 @@ const config: StorybookConfig = {
 
     return mergeConfig(config, {
       plugins: filteredPlugins,
+      define: {
+        global: 'globalThis',
+      },
     });
   },
 };
