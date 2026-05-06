@@ -1,5 +1,3 @@
-import { truncate } from 'es-toolkit/compat';
-
 export default {
   extends: ['markuplint:recommended'],
   parser: {
@@ -24,7 +22,6 @@ export default {
     'label-has-control': false,
     'landmark-roles': false,
     'neighbor-popovers': true,
-    'no-ambigious-navigable-target-names': false,
     'no-boolean-attr-value': false,
     'no-consecutive-br': false,
     'no-default-value': false,
@@ -40,7 +37,7 @@ export default {
     'require-datetime': true,
     'required-attr': [],
     'required-element': [],
-    'required-h1': true,
+    'required-h1': false,
     'table-row-column-alignment': false,
     'use-list': false,
     'wai-aria': true,
