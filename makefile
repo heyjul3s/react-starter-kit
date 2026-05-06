@@ -50,7 +50,7 @@ help:
 	@echo "	clean									Clean up node_modules"
 
 setup:
-	chmod -R +x ./scripts && make install && pnpx husky:prepare
+	chmod -R +x ./scripts && make install && pnpm run prepare
 
 # Catch-all rule to prevent Make from complaining about unknown targets
 # This allows package names to be passed as arguments to add/del commands
