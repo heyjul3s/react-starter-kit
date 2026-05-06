@@ -5,28 +5,28 @@
 .PHONY: test-report-ci test-ui test-watch test-storybook
 
 test:
-	pnpx vitest run --passWithNoTests
+	pnpm exec vitest run --passWithNoTests
 
 test-bash:
-	pnpx bats scripts/*.bats
+	pnpm exec bats scripts/*.bats
 
 test-bash-ci:
-	pnpx bats scripts/*.bats -- --formatter tap
+	pnpm exec bats scripts/*.bats -- --formatter tap
 
 test-ci:
-	pnpx vitest run --passWithNoTests --coverage --reporter=basic
+	pnpm exec vitest run --passWithNoTests --coverage --reporter=basic
 
 test-report:
-	pnpx vitest --coverage --run --reporter junit
+	pnpm exec vitest --coverage --run --reporter junit
 
 test-report-ci:
-	pnpx vitest --coverage --reporter=junit --reporter=basic
+	pnpm exec vitest --coverage --reporter=junit --reporter=basic
 
 test-ui:
-	pnpx vitest --ui --coverage.enabled --coverage.all --coverage.src='./src' --coverage.reporter='html'
+	pnpm exec vitest --ui --coverage.enabled --coverage.all --coverage.src='./src' --coverage.reporter='html'
 
 test-watch:
-	pnpx vitest --watch
+	pnpm exec vitest --watch
 
 test-storybook:
-	pnpx test-storybook
+	pnpm exec test-storybook
