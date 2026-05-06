@@ -29,42 +29,46 @@ lint-ci:
 
 lint-css:
 	@echo "Running CSS linting..."
-	pnpx stylelint "src/**/*.{module.css,css}" $(LINT_ARGS)
+	pnpm exec stylelint "src/**/*.{module.css,css}" $(LINT_ARGS)
 
 lint-css-fix:
 	@echo "Running CSS lint fixes..."
-	pnpx stylelint "src/**/*.{module.css,css}" --fix $(LINT_ARGS)
+	pnpm exec stylelint "src/**/*.{module.css,css}" --fix $(LINT_ARGS)
 
 lint-fix:
 	@echo "Running all lint fixes..."
-	$(MAKE) lint-ox LINT_ARGS="$(LINT_ARGS)"
-	$(MAKE) lint-css LINT_ARGS="$(LINT_ARGS)"
-	$(MAKE) lint-prettier LINT_ARGS="$(LINT_ARGS)"
+	$(MAKE) lint-ox-fix LINT_ARGS="$(LINT_ARGS)"
+	$(MAKE) lint-css-fix LINT_ARGS="$(LINT_ARGS)"
+	$(MAKE) lint-prettier-fix LINT_ARGS="$(LINT_ARGS)"
 
 lint-markup:
 	@echo "Running Markup linting..."
-	pnpx markuplint  "src/**/*.{html,jsx,tsx}" $(LINT_ARGS)
+	pnpm exec markuplint  "src/**/*.{html,jsx,tsx}" $(LINT_ARGS)
 
 lint-ox:
 	@echo "Running Oxlint..."
-	pnpx oxlint ./src ./scripts --deny-warnings $(LINT_ARGS)
+	pnpm exec oxlint ./src ./scripts --deny-warnings $(LINT_ARGS)
 
 lint-ox-fix:
 	@echo "Running Oxlint fixes..."
-	pnpx oxlint ./src ./scripts --deny-warnings --fix $(LINT_ARGS)
+	pnpm exec oxlint ./src ./scripts --deny-warnings --fix $(LINT_ARGS)
 
 lint-prettier:
 	@echo "Running Prettier linting..."
-	pnpx prettier --check "src/**/*.{ts,tsx,js,jsx,json,css,md}" --quiet $(LINT_ARGS)
+	pnpm exec prettier --check "src/**/*.{ts,tsx,js,jsx,json,css,md}" $(LINT_ARGS)
 
 lint-prettier-fix:
 	@echo "Running Prettier fixes..."
-	pnpx prettier --write "src/**/*.{ts,tsx,js,jsx,json,css,md}" --quiet $(LINT_ARGS)
+	pnpm exec prettier --write "src/**/*.{ts,tsx,js,jsx,json,css,md}" $(LINT_ARGS)
+
+lint-types:
+	@echo "Running TypeScript type checking..."
+	pnpm exec tsc --noEmit $(LINT_ARGS)
 	
 lint-sh:
 	@echo "Running Shell script linting..."
-	pnpx shellcheck ./scripts/**/*.sh $(LINT_ARGS)
+	pnpm exec shellcheck ./scripts/**/*.sh $(LINT_ARGS)
 
 lint-staged:
 	@echo "Running lint-staged for staged files..."
-	pnpx lint-staged $(LINT_ARGS)
+	pnpm exec lint-staged $(LINT_ARGS)

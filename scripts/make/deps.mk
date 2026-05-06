@@ -10,16 +10,16 @@ DEPS_ARGS ?=
 
 deps:
 	@echo "Checking for dependency issues..."
-	pnpx depcheck $(DEPS_ARGS) || true
+	pnpm dlx depcheck $(DEPS_ARGS) || true
 
 deps-circular:
 	@echo "Checking for circular dependencies..."
-	pnpx madge --circular --extensions ts,tsx src/ $(DEPS_ARGS) || true
+	pnpm dlx madge --circular --extensions ts,tsx src/ $(DEPS_ARGS) || true
 
 deps-graph:
 	@echo "Generating dependency graph..."
-	pnpx skott $(DEPS_ARGS)
+	pnpm dlx skott $(DEPS_ARGS)
 
 deps-orphans:
 	@echo "Checking for orphaned dependencies..."
-	pnpx madge --orphans --exclude '(\.test\.ts$||\.test\.tsx$|\.spec\.ts$.spec\.tsx$.storybook)' --extensions ts,tsx src/ $(DEPS_ARGS) || true
+	pnpm dlx madge --orphans --exclude '(\.test\.tsx?$$|\.spec\.tsx?$$|\.storybook)' --extensions ts,tsx src/ $(DEPS_ARGS) || true
