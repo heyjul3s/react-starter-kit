@@ -46,6 +46,10 @@ function createSelectorsBase<S extends StoreApi<object>>(
   store: S,
   selectorFactory: (key: string) => () => any,
 ) {
+  if (!store) {
+    return store;
+  }
+
   const storeWithSelectors = store as WithSelectors<S>;
 
   storeWithSelectors.use = {};

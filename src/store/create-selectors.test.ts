@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { renderHook } from '@testing-library/react';
+import { act, renderHook } from '@testing-library/react';
 import { create, createStore } from 'zustand';
 import { createSelectors, createStoreSelectors } from './create-selectors';
 
@@ -54,7 +54,9 @@ describe('createSelectors', () => {
 
       expect(result.current).toBe(0);
 
-      store.getState().increment();
+      act(() => {
+        store.getState().increment();
+      });
       rerender();
 
       expect(result.current).toBe(1);
@@ -92,7 +94,7 @@ describe('createSelectors', () => {
       const { result: userResult } = renderHook(() => store.use.user());
       const { result: settingsResult } = renderHook(() => store.use.settings());
 
-      expect(userResult.current).toEqual({ name: 'test' });
+      expect(userResult.current).toEqual({ name: 'test', age: 30 });
       expect(settingsResult.current).toEqual({ theme: 'dark' });
     });
 
@@ -161,7 +163,9 @@ describe('createSelectors', () => {
 
       expect(result.current).toBe(0);
 
-      store.getState().increment();
+      act(() => {
+        store.getState().increment();
+      });
       rerender();
 
       expect(result.current).toBe(1);
