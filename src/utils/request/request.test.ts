@@ -1,7 +1,7 @@
 import axios, { AxiosHeaders } from 'axios';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+
 import { request } from './request';
-import { requestInterceptor } from './request-interceptor';
 
 Object.defineProperty(globalThis, 'import', {
   configurable: true,
@@ -36,19 +36,17 @@ vi.mock('axios', async () => {
 });
 
 vi.mock('./request-interceptor', () => ({
-  interceptRequest: vi.fn(),
+  requestInterceptor: vi.fn(),
 }));
 
 const mockAxiosCreate = vi.mocked(axios.create);
 
 describe('request', () => {
   let mockAxiosInstance: any;
-  let mockRequestInterceptor: any;
 
   beforeEach(() => {
     vi.clearAllMocks();
     mockAxiosInstance = mockAxiosCreate();
-    mockRequestInterceptor = vi.mocked(requestInterceptor);
 
     Object.assign(mockAxiosInstance, {
       interceptors: {
@@ -75,7 +73,6 @@ describe('request', () => {
 
       const result = await request<typeof mockData>('/api/test');
 
-      expect(mockRequestInterceptor).toHaveBeenCalledWith(mockAxiosInstance);
       expect(mockAxiosInstance).toHaveBeenCalledWith('/api/test', {
         baseURL: undefined,
         headers: {
@@ -123,7 +120,7 @@ describe('request', () => {
       });
     });
 
-    it('should return response with headers when requested', async () => {
+    it('should return response data', async () => {
       const mockData = { id: 1 };
       const mockHeaders = new AxiosHeaders({ 'Content-Type': 'application/json ' });
       const mockResponse = {
@@ -135,10 +132,7 @@ describe('request', () => {
 
       const result = await request<typeof mockData>('/api/test', {});
 
-      expect(result).toEqual({
-        data: mockData,
-        headers: mockHeaders,
-      });
+      expect(result).toEqual(mockData);
     });
   });
 

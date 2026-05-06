@@ -1,17 +1,19 @@
-import axios from "axios";
-import { isEmpty } from "es-toolkit/compat";
-import qs from "qs";
+import axios from 'axios';
+import { isEmpty } from 'es-toolkit/compat';
+import qs from 'qs';
+import { requestInterceptor } from './request-interceptor';
 
-import type { AxiosRequestConfig } from "axios";
-import type { PathLike } from "fs";
+import type { AxiosRequestConfig } from 'axios';
+import type { PathLike } from 'fs';
 
 export const axiosBase = axios.create();
+requestInterceptor(axiosBase);
 
 const REQUEST_CONFIG_DEFAULTS: AxiosRequestConfig = {
   baseURL: import.meta.env.VITE_REACT_APP_BASE_API_URL,
   headers: {
-    Accept: "application/json",
-    "Content-Type": "application/json",
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
   },
   paramsSerializer: {
     encode: (params: PathLike) => qs.stringify(params, { indices: false }),
@@ -19,10 +21,7 @@ const REQUEST_CONFIG_DEFAULTS: AxiosRequestConfig = {
   timeout: 20_000,
 };
 
-export async function request<Data>(
-  endpoint: string,
-  config?: AxiosRequestConfig,
-): Promise<Data>;
+export async function request<Data>(endpoint: string, config?: AxiosRequestConfig): Promise<Data>;
 
 export async function request<Data>(
   endpoint: string,
@@ -38,11 +37,11 @@ export async function request<Data>(
       return response.data;
     })
     .catch((error) => {
-      if (error.name === "AbortError" || error.code === "ERR_CANCELED") {
+      if (error.name === 'AbortError' || error.code === 'ERR_CANCELED') {
         return Promise.reject({
           ...error,
           isAborted: true,
-          message: "Request was aborted",
+          message: 'Request was aborted',
         });
       }
 
