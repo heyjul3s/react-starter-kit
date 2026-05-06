@@ -1,9 +1,17 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { Layout } from '@/components';
+import { usePageTitle } from '@/hooks';
+import { createFileRoute } from '@tanstack/react-router';
 
-export const Route = createFileRoute("/about")({
+export const Route = createFileRoute('/about')({
   component: About,
 });
 
 function About() {
-  return <div>Hello "/about"!</div>;
+  usePageTitle('About');
+
+  return (
+    <Layout>
+      <div>Hello "/about"!</div>
+    </Layout>
+  );
 }
