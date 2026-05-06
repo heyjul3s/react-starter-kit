@@ -1,20 +1,35 @@
-import { RouterProvider } from '@tanstack/react-router';
-import { createMockRouter } from '../mock-router';
+import { QueryClient } from '@tanstack/react-query';
+import {
+  createMemoryHistory,
+  createRootRoute,
+  createRouter,
+  RouterProvider,
+} from '@tanstack/react-router';
 
 import type { StoryContext } from '@storybook/react-vite';
 import type { PartialStoryFn } from 'storybook/internal/csf';
 
 export function withRouter(Story: PartialStoryFn, context: StoryContext) {
-  const router = createMockRouter({
-    initialEntries: context.parameters?.router.initialEntries || ['/'],
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: { retry: false },
+    },
   });
 
-  return (
-    // Some versions of @tanstack/react-router's RouterProvider types do not
-    // include `children` even though at runtime providing children works for
-    // Storybook wrappers. Cast to any to avoid the TS type error here.
-    <RouterProvider {...({ router } as any)}>
-      <Story />
-    </RouterProvider>
-  );
+  const rootRoute = createRootRoute({
+    component: () => <Story />,
+  });
+
+  const router = createRouter({
+    routeTree: rootRoute,
+    history: createMemoryHistory({
+      initialEntries: context.parameters?.router?.initialEntries || ['/'],
+    }),
+    context: {
+      queryClient,
+    },
+    defaultPreload: 'intent',
+  });
+
+  return <RouterProvider router={router} />;
 }
