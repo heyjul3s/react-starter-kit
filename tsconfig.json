@@ -21,8 +21,14 @@
       "@/*": ["src/*"],
       "@/components": ["./src/components"],
       "@/components/*": ["./src/components/*"],
-      "@/pages": ["./src/pages"],
-      "@/pages/*": ["./src/pages/*"],
+      "@/context-providers": ["./src/context-providers"],
+      "@/context-providers/*": ["./src/context-providers/*"],
+      "@/hooks": ["./src/hooks"],
+      "@/hooks/*": ["./src/hooks/*"],
+      "@/store": ["./src/store"],
+      "@/store/*": ["./src/store/*"],
+      "@/routes": ["./src/routes"],
+      "@/routes/*": ["./src/routes/*"],
       "@/utils": ["./src/utils"],
       "@/utils/*": ["./src/utils/*"]
     },
@@ -45,6 +51,6 @@
     "./node_modules/@types/node/index.d.ts",
     "build"
   ],
-  "include": ["src", "./vitest-setup.ts"],
+  "include": ["src", "./vitest-setup.ts", "__handlers__"],
   "typeRoots": ["./src/global.d.ts"]
 }
