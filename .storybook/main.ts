@@ -1,6 +1,10 @@
+import path from 'node:path';
+
 import { loadEnv, mergeConfig } from 'vite';
 
 import type { StorybookConfig } from '@storybook/react-vite';
+
+const storybookTsconfigPath = path.resolve(process.cwd(), 'tsconfig.storybook.json');
 
 const config: StorybookConfig = {
   addons: [
@@ -20,10 +24,13 @@ const config: StorybookConfig = {
   stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
   typescript: {
     reactDocgen: 'react-docgen-typescript',
+    reactDocgenTypescriptOptions: {
+      tsconfigPath: storybookTsconfigPath,
+    },
   },
   viteFinal: async (config) => {
     // Filter out the router plugin from Storybook's Vite config.
-    // Be defensive: `config.plugins` can contain `false`, arrays, or other
+    // Note, `config.plugins` can contain `false`, arrays, or other
     // falsy values, so narrow the type before accessing `name`.
     const filteredPlugins = config.plugins?.filter((plugin) => {
       // keep falsy entries (they may be conditional plugins)
@@ -42,12 +49,20 @@ const config: StorybookConfig = {
       return maybePlugin.name !== '@tanstack/router-plugin';
     });
 
-    return mergeConfig(config, {
-      plugins: filteredPlugins,
-      define: {
-        global: 'globalThis',
+    return mergeConfig(
+      {
+        ...config,
+        plugins: filteredPlugins,
       },
-    });
+      {
+        define: {
+          global: 'globalThis',
+        },
+        resolve: {
+          tsconfigPaths: true,
+        },
+      },
+    );
   },
 };
 
