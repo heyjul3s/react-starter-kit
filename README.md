@@ -44,6 +44,12 @@ pnpm install
 pnpm run prepare
 ```
 
+Dependency installs are governed by the repo-level pnpm policy in `pnpm-workspace.yaml`. New package versions are delayed for 7 days before adoption, package-manager and Node versions are enforced, exotic subdependencies are blocked, and dependency build scripts must be explicitly reviewed. If pnpm reports an unapproved build script after adding or updating packages, review it with:
+
+```bash
+pnpm approve-builds
+```
+
 Start the development server:
 
 ```bash
@@ -178,7 +184,7 @@ make deps DEPS_ARGS="--ignores=some-package"
 ```text
 .
 ├── .storybook/              Storybook config, decorators, and mocks
-├── config/                  Vite and Vitest config helpers
+├── config/                  Vite and Vitest config helpers (and any other config helpers you may need)
 ├── public/                  Static public assets and MSW worker output
 ├── scripts/                 Bash scripts and Make target fragments
 ├── src/
@@ -317,7 +323,7 @@ Vite and Vitest use native `resolve.tsconfigPaths`, and TypeScript reads aliases
 
 ## Dependency Checks
 
-Dependency analysis tools are run as one-off packages through `pnpm dlx`.
+Dependency analysis tools are pinned dev dependencies and run through `pnpm exec`, so the commands use versions recorded in `pnpm-lock.yaml` instead of resolving executable packages on demand.
 
 ```bash
 make deps
@@ -326,7 +332,7 @@ make deps-orphans
 make deps-graph
 ```
 
-These targets are useful during cleanup, but they can be slower because they may need to resolve packages on demand.
+These targets are useful during dependency cleanup and module-graph reviews. `make deps-graph` starts Skott's web UI by default; pass Skott options through `DEPS_ARGS` when you need a different display mode.
 
 ## Production Notes
 
