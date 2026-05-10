@@ -5,7 +5,7 @@
 
 build-analyze-%:
 	@echo "Building for environment with bundle analysis: $*"
-	ANALYZE=true pnpm exec vite build --emptyOutDir --mode $*
+	source ./scripts/bash/nvm-use.sh && ANALYZE=true pnpm exec vite build --emptyOutDir --mode $*
 
 build-clean:
 	@echo "Cleaning build output directory"
@@ -17,7 +17,7 @@ build-stats-%:
 
 build-preview-%:
 	@echo "Starting preview server for: $*"
-	pnpm exec vite preview --mode $*
+	source ./scripts/bash/nvm-use.sh && pnpm exec vite preview --mode $*
 
 build-%:
 	@echo "Building for environment: $*"
@@ -26,5 +26,5 @@ build-%:
 		./scripts/bash/build-ci.sh $*; \
 	else \
 		echo "Using standard build script"; \
-		pnpm exec vite build --emptyOutDir --mode $*; \
+		source ./scripts/bash/nvm-use.sh && pnpm exec vite build --emptyOutDir --mode $*; \
 	fi

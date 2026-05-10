@@ -10,16 +10,16 @@ DEPS_ARGS ?=
 
 deps:
 	@echo "Checking for dependency issues..."
-	pnpm dlx depcheck $(DEPS_ARGS) || true
+	source ./scripts/bash/nvm-use.sh && pnpm exec depcheck $(DEPS_ARGS) || true
 
 deps-circular:
 	@echo "Checking for circular dependencies..."
-	pnpm dlx madge --circular --extensions ts,tsx src/ $(DEPS_ARGS) || true
+	source ./scripts/bash/nvm-use.sh && pnpm exec madge --circular --extensions ts,tsx src/ $(DEPS_ARGS) || true
 
 deps-graph:
 	@echo "Generating dependency graph..."
-	pnpm dlx skott $(DEPS_ARGS)
+	source ./scripts/bash/nvm-use.sh && pnpm exec skott $(DEPS_ARGS)
 
 deps-orphans:
 	@echo "Checking for orphaned dependencies..."
-	pnpm dlx madge --orphans --exclude '(\.test\.tsx?$$|\.spec\.tsx?$$|\.storybook)' --extensions ts,tsx src/ $(DEPS_ARGS) || true
+	source ./scripts/bash/nvm-use.sh && pnpm exec madge --orphans --exclude '(\.test\.tsx?$$|\.spec\.tsx?$$|\.storybook)' --extensions ts,tsx src/ $(DEPS_ARGS) || true

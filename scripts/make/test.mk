@@ -5,28 +5,28 @@
 .PHONY: test-report-ci test-ui test-watch test-storybook
 
 test:
-	pnpm exec vitest run --passWithNoTests
+	source ./scripts/bash/nvm-use.sh && pnpm exec vitest run --passWithNoTests
 
 test-bash:
-	pnpm exec bats scripts/*.bats
+	source ./scripts/bash/nvm-use.sh && pnpm exec bats scripts/bash/*.bats
 
 test-bash-ci:
-	pnpm exec bats scripts/*.bats -- --formatter tap
+	source ./scripts/bash/nvm-use.sh && pnpm exec bats scripts/bash/*.bats -- --formatter tap
 
 test-ci:
-	pnpm exec vitest run --passWithNoTests --coverage --reporter=basic
+	source ./scripts/bash/nvm-use.sh && pnpm exec vitest run --passWithNoTests --coverage --reporter=basic
 
 test-report:
-	pnpm exec vitest --coverage --run --reporter junit
+	source ./scripts/bash/nvm-use.sh && pnpm exec vitest --coverage --run --reporter junit
 
 test-report-ci:
-	pnpm exec vitest --coverage --reporter=junit --reporter=basic
+	source ./scripts/bash/nvm-use.sh && pnpm exec vitest --coverage --reporter=junit --reporter=basic
 
 test-ui:
-	pnpm exec vitest --ui --coverage.enabled --coverage.all --coverage.src='./src' --coverage.reporter='html'
+	source ./scripts/bash/nvm-use.sh && pnpm exec vitest --ui --coverage.enabled --coverage.all --coverage.src='./src' --coverage.reporter='html'
 
 test-watch:
-	pnpm exec vitest --watch
+	source ./scripts/bash/nvm-use.sh && pnpm exec vitest --watch
 
 test-storybook:
-	pnpm exec test-storybook
+	source ./scripts/bash/nvm-use.sh && pnpm exec test-storybook
