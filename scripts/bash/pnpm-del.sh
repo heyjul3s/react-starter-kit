@@ -4,10 +4,10 @@
 set -e 
 
 # Source NVM to ensure we're using the correct Node version
-/bin/bash ./scripts/bash/nvm-use.sh
+source "./scripts/bash/nvm-use.sh"
 
 # Guard clause to check if any packages were provided
-if [ $# -eq 0]; then
+if [ $# -eq 0 ]; then
   echo "Error: No packages specified"
   echo "Usage: ./pnpm-del.sh PACKAGE [PACKAGE2 ...]"
   echo "Example: ./pnpm-del.sh react es-toolkit"

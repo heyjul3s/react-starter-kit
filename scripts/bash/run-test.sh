@@ -2,6 +2,8 @@
 
 source "./scripts/bash/utils-scripts.sh"
 
+source "./scripts/bash/nvm-use.sh"
+
 show_help() {
   show_script_help "run-test.sh" "Test wrapper script" "Run all tests" \
     "bash:Run bash tests" \

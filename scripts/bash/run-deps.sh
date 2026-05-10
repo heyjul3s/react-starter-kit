@@ -2,6 +2,8 @@
 
 source "./scripts/bash/utils-scripts.sh"
 
+source "./scripts/bash/nvm-use.sh"
+
 show_help() {
   show_script_help "run-deps.sh" "Dependency check wrapper script" "Run all dependency checks" \
     "deps:Run dependency checks" \

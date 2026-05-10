@@ -1,7 +1,7 @@
 # Load BATS helper libraries (paths are relative to this file's location)
 # from `scripts/` the project `node_modules` directory is one level up
-load '../node_modules/bats-support/load'
-load '../node_modules/bats-assert/load'
+load '../../node_modules/bats-support/load'
+load '../../node_modules/bats-assert/load'
 
 # STUB Infrastructure for testing bash scripts
 # ==========================================================================
@@ -90,4 +90,3 @@ assert_cmd_called_with() {
   actual_count=$(wc -l < "${STUB_DIR}/${cmd}.calls" 2>/dev/null || echo 0)
   assert [ "$actual_count" -eq "$expected_count" ]
 }
-
