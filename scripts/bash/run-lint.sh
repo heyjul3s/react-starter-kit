@@ -7,6 +7,7 @@ show_help() {
     "css:Run CSS linter" \
     "css-fix:Run CSS linter with auto-fix" \
     "fix:Run all linters with auto-fix" \
+    "knip:Run Knip unused dependency and export checks" \
     "markup:Run markup linter" \
     "ox:Run custom 'ox' linter" \
     "ox-fix:Run 'ox' linter with auto-fix" \
@@ -17,48 +18,54 @@ show_help() {
     "types:Run TypeScript type checker"
 }
 
-COMMAND=$1
-shift
+COMMAND=${1:-}
+
+if [ $# -gt 0 ]; then
+  shift
+fi
 
 if [ -z "$COMMAND" ]; then
   echo "Running all linters..."
-  make lint "$@"
+  make lint LINT_ARGS="$*"
   exit $?
 fi
 
 case "$COMMAND" in
   "css")
-    make lint-css "$@"
+    make lint-css LINT_FILES="$*"
     ;;
   "css-fix")
-    make lint-css-fix "$@"
+    make lint-css-fix LINT_FILES="$*"
     ;;
   "fix")
-    make lint-fix "$@"
+    make lint-fix LINT_ARGS="$*"
+    ;;
+  "knip")
+    make lint-knip LINT_ARGS="$*"
     ;;
   "markup")
-    make lint-markup "$@"
+    make lint-markup LINT_FILES="$*"
     ;;
   "ox")
-    make lint-ox "$@"
+    make lint-ox LINT_FILES="$*"
     ;;
   "ox-fix")
-    make lint-ox-fix "$@"
+    make lint-ox-fix LINT_FILES="$*"
     ;;
   "prettier")
-    make lint-prettier "$@"
+    make lint-prettier LINT_FILES="$*"
     ;;
   "prettier-fix")
-    make lint-prettier-fix "$@"
+    make lint-prettier-fix LINT_FILES="$*"
     ;;
   "sh")
-    make lint-sh "$@"
+    make lint-sh LINT_FILES="$*"
     ;;
   "stage")
-    make lint-staged "$@"
+    make lint-staged LINT_ARGS="$*"
     ;;
   "types")
-    make lint-types "$@"
+    make lint-types LINT_ARGS="$*"
     ;;
   "help"|"h"|"--help")
     show_help

@@ -14,7 +14,7 @@ const config: Configuration = {
       return [];
     }
 
-    return `pnpm exec tsc --project ./tsconfig.json --noEmit`;
+    return `./scripts/bash/run-lint.sh types --project ./tsconfig.json`;
   },
 
   '**/*.{ts,tsx,js,jsx}': (filenames) => {
@@ -28,10 +28,11 @@ const config: Configuration = {
 
     return [
       `./scripts/bash/run-deps.sh circular`,
-      `pnpm exec oxlint --fix ${files}`,
-      `pnpm exec prettier --write ${files}`,
-      `pnpm exec markuplint ${files}`,
+      `./scripts/bash/run-lint.sh ox-fix ${files}`,
+      `./scripts/bash/run-lint.sh prettier-fix ${files}`,
+      `./scripts/bash/run-lint.sh markup ${files}`,
       `pnpm exec vitest related --passWithNoTests --run ${files}`,
+      `./scripts/bash/run-lint.sh knip`,
     ];
   },
 
@@ -41,15 +42,26 @@ const config: Configuration = {
     }
 
     const files = filenames.join(' ');
-    return [`pnpm exec stylelint ${files} --fix`];
+    return [`./scripts/bash/run-lint.sh css-fix ${files}`];
   },
 
-  '**/*.{md,json}': (filenames) => {
+  '**/*.md': (filenames) => {
     if (filenames.length === 0) {
       return [];
     }
 
-    return `pnpm exec prettier --write ${filenames.join(' ')}`;
+    return `./scripts/bash/run-lint.sh prettier-fix ${filenames.join(' ')}`;
+  },
+
+  '**/*.json': (filenames) => {
+    if (filenames.length === 0) {
+      return [];
+    }
+
+    return [
+      `./scripts/bash/run-lint.sh prettier-fix ${filenames.join(' ')}`,
+      `./scripts/bash/run-lint.sh knip`,
+    ];
   },
 };
 

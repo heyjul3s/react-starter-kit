@@ -3,10 +3,16 @@
 
 .PHONY: lint lint-ci lint-fix lint-css lint-css-fix lintox lint-ox-fix
 .PHONY: lint-types lint-prettier lint-prettier-fix
-.PHONY: lint-markup lint-sh lint-staged
+.PHONY: lint-knip lint-markup lint-sh lint-staged
 
 # Capture additional arguments for lint commands
 LINT_ARGS ?=
+LINT_FILES ?=
+CSS_FILES := "src/**/*.{module.css,css}"
+MARKUP_FILES := "src/**/*.{html,jsx,tsx}"
+OX_FILES := ./src ./scripts
+PRETTIER_FILES := "src/**/*.{ts,tsx,js,jsx,json,css,md}"
+SHELL_FILES := ./scripts/**/*.sh
 
 lint:
 	@echo "Running all linters..."
@@ -29,11 +35,11 @@ lint-ci:
 
 lint-css:
 	@echo "Running CSS linting..."
-	source ./scripts/bash/nvm-use.sh && pnpm exec stylelint "src/**/*.{module.css,css}" $(LINT_ARGS)
+	source ./scripts/bash/nvm-use.sh && pnpm exec stylelint $(if $(LINT_FILES),$(LINT_FILES),$(CSS_FILES)) $(LINT_ARGS)
 
 lint-css-fix:
 	@echo "Running CSS lint fixes..."
-	source ./scripts/bash/nvm-use.sh && pnpm exec stylelint "src/**/*.{module.css,css}" --fix $(LINT_ARGS)
+	source ./scripts/bash/nvm-use.sh && pnpm exec stylelint $(if $(LINT_FILES),$(LINT_FILES),$(CSS_FILES)) --fix $(LINT_ARGS)
 
 lint-fix:
 	@echo "Running all lint fixes..."
@@ -41,25 +47,29 @@ lint-fix:
 	$(MAKE) lint-css-fix LINT_ARGS="$(LINT_ARGS)"
 	$(MAKE) lint-prettier-fix LINT_ARGS="$(LINT_ARGS)"
 
+lint-knip:
+	@echo "Running Knip..."
+	source ./scripts/bash/nvm-use.sh && pnpm exec knip --reporter compact --no-config-hints $(LINT_ARGS)
+
 lint-markup:
 	@echo "Running Markup linting..."
-	source ./scripts/bash/nvm-use.sh && pnpm exec markuplint  "src/**/*.{html,jsx,tsx}" $(LINT_ARGS)
+	source ./scripts/bash/nvm-use.sh && pnpm exec markuplint $(if $(LINT_FILES),$(LINT_FILES),$(MARKUP_FILES)) $(LINT_ARGS)
 
 lint-ox:
 	@echo "Running Oxlint..."
-	source ./scripts/bash/nvm-use.sh && pnpm exec oxlint ./src ./scripts --deny-warnings $(LINT_ARGS)
+	source ./scripts/bash/nvm-use.sh && pnpm exec oxlint $(if $(LINT_FILES),$(LINT_FILES),$(OX_FILES)) --deny-warnings $(LINT_ARGS)
 
 lint-ox-fix:
 	@echo "Running Oxlint fixes..."
-	source ./scripts/bash/nvm-use.sh && pnpm exec oxlint ./src ./scripts --deny-warnings --fix $(LINT_ARGS)
+	source ./scripts/bash/nvm-use.sh && pnpm exec oxlint $(if $(LINT_FILES),$(LINT_FILES),$(OX_FILES)) --deny-warnings --fix $(LINT_ARGS)
 
 lint-prettier:
 	@echo "Running Prettier linting..."
-	source ./scripts/bash/nvm-use.sh && pnpm exec prettier --check "src/**/*.{ts,tsx,js,jsx,json,css,md}" $(LINT_ARGS)
+	source ./scripts/bash/nvm-use.sh && pnpm exec prettier --check $(if $(LINT_FILES),$(LINT_FILES),$(PRETTIER_FILES)) $(LINT_ARGS)
 
 lint-prettier-fix:
 	@echo "Running Prettier fixes..."
-	source ./scripts/bash/nvm-use.sh && pnpm exec prettier --write "src/**/*.{ts,tsx,js,jsx,json,css,md}" $(LINT_ARGS)
+	source ./scripts/bash/nvm-use.sh && pnpm exec prettier --write $(if $(LINT_FILES),$(LINT_FILES),$(PRETTIER_FILES)) $(LINT_ARGS)
 
 lint-types:
 	@echo "Running TypeScript type checking..."
@@ -67,7 +77,7 @@ lint-types:
 	
 lint-sh:
 	@echo "Running Shell script linting..."
-	source ./scripts/bash/nvm-use.sh && pnpm exec shellcheck ./scripts/**/*.sh $(LINT_ARGS)
+	source ./scripts/bash/nvm-use.sh && pnpm exec shellcheck $(if $(LINT_FILES),$(LINT_FILES),$(SHELL_FILES)) $(LINT_ARGS)
 
 lint-staged:
 	@echo "Running lint-staged for staged files..."
