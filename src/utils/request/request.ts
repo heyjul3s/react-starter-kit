@@ -6,7 +6,7 @@ import { requestInterceptor } from './request-interceptor';
 import type { AxiosRequestConfig } from 'axios';
 import type { PathLike } from 'fs';
 
-export const axiosBase = axios.create();
+const axiosBase = axios.create();
 requestInterceptor(axiosBase);
 
 const REQUEST_CONFIG_DEFAULTS: AxiosRequestConfig = {
