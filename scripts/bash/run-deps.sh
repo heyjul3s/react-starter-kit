@@ -12,28 +12,31 @@ show_help() {
     "orphans:Check for orphaned dependencies"
 }
 
-COMMAND=$1
-shift # Remove the first argument (command)
+COMMAND=${1:-}
+
+if [ $# -gt 0 ]; then
+  shift
+fi
 
 # If no specific command is provided, run the default deps check
 if [ -z "$COMMAND" ]; then
   echo "Running deps check..."
-  make deps "$@"
+  make deps DEPS_ARGS="$*"
   exit $?
 fi
 
 case "$COMMAND" in
   "deps")
-    make deps "$@"
+    make deps DEPS_ARGS="$*"
     ;;
   "circular")
-    make deps-circular "$@"
+    make deps-circular DEPS_ARGS="$*"
     ;;
   "graph")
-    make deps-graph "$@"
+    make deps-graph DEPS_ARGS="$*"
     ;;
   "orphans")
-    make deps-orphans "$@"
+    make deps-orphans DEPS_ARGS="$*"
     ;;
   "help"|"h"|"--help")
     show_help
