@@ -1,9 +1,19 @@
+import path from 'node:path';
+
 import type { Configuration } from 'lint-staged';
 
-const ignoredFiles = new Set(['src/route-tree.gen.ts']);
+const ignoredFiles = [/^src\/.*\.gen\.ts$/];
+
+function toProjectPath(filename: string) {
+  return path.relative(process.cwd(), filename).split(path.sep).join('/');
+}
 
 function filterIgnoredFiles(filenames: readonly string[]) {
-  return filenames.filter((filename) => !ignoredFiles.has(filename));
+  return filenames.filter((filename) => {
+    const projectPath = toProjectPath(filename);
+
+    return !ignoredFiles.some((pattern) => pattern.test(projectPath));
+  });
 }
 
 const config: Configuration = {
