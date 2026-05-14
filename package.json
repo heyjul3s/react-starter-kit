@@ -74,7 +74,6 @@
     "browserslist": "^4.28.2",
     "browserslist-lint": "^0.4.0",
     "chromatic": "^16.6.3",
-    "depcheck": "1.4.7",
     "husky": "^9.1.7",
     "jsdom": "^29.1.1",
     "knip": "6.12.0",

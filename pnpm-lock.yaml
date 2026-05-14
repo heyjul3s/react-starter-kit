@@ -147,9 +147,6 @@ importers:
       chromatic:
         specifier: ^16.6.3
         version: 16.6.3
-      depcheck:
-        specifier: 1.4.7
-        version: 1.4.7
       husky:
         specifier: ^9.1.7
         version: 9.1.7
