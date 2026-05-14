@@ -164,7 +164,7 @@ Make targets are the most explicit way to run project tasks.
 | `make lint-prettier-fix`    | Formats files with Prettier                                         |
 | `make lint-sh`              | Runs ShellCheck                                                     |
 | `make lint-staged`          | Runs lint-staged                                                    |
-| `make deps`                 | Runs dependency checks with depcheck                                |
+| `make deps`                 | Runs dependency checks with Knip                                    |
 | `make deps-circular`        | Checks circular dependencies with madge                             |
 | `make deps-orphans`         | Checks orphaned modules with madge                                  |
 | `make deps-graph`           | Generates a dependency graph with skott                             |
@@ -176,7 +176,7 @@ Many targets accept extra args through variables:
 
 ```bash
 make lint-prettier LINT_ARGS="README.md"
-make deps DEPS_ARGS="--ignores=some-package"
+make deps DEPS_ARGS="--production"
 ```
 
 ## Project Structure
