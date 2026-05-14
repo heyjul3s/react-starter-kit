@@ -1,0 +1,85 @@
+import type { KnipConfig } from 'knip';
+
+const config: KnipConfig = {
+  entry: [
+    'src/index.html',
+    'src/main.tsx',
+    'src/**/index.{ts,tsx}',
+    'vitest.shims.d.ts',
+
+    'vite.config.ts',
+    'vitest.config.ts',
+    'commitlint.config.ts',
+    'lint-staged.config.ts',
+    'markuplint.config.ts',
+    'oxlint.config.ts',
+    'prettier.config.ts',
+    'stylelint.config.ts',
+
+    '.storybook/main.ts',
+    '.storybook/preview.tsx',
+    '.storybook/decorators/with-router.tsx',
+    '.storybook/mock-router.ts',
+
+    '__handlers__/browser.ts',
+  ],
+  project: [
+    'src/**/*.{ts,tsx}',
+    'config/**/*.{ts,tsx}',
+    '__handlers__/**/*.{ts,tsx}',
+    '.storybook/**/*.{ts,tsx}',
+    '*.{ts,tsx}',
+  ],
+  ignore: [
+    '.pnpm-store/**',
+    '.tanstack/**',
+    'build/**',
+    'coverage/**',
+    'dist/**',
+    'storybook-static/**',
+    'test-reports/**',
+  ],
+  ignoreDependencies: [
+    '@faker-js/faker',
+    '@markuplint/jsx-parser',
+    '@markuplint/react-spec',
+    '@storybook/react',
+    'bats',
+    'bats-assert',
+    'bats-support',
+    'chromatic',
+    'class-variance-authority',
+    'clsx',
+    'depcheck',
+    'madge',
+    'markuplint',
+    'nuqs',
+    'postcss',
+    'postcss-syntax',
+    'skott',
+    'ts-dedent',
+    'ts-jest',
+    'ts-node',
+    'ts-pattern',
+    'typescript-json-schema',
+    'vite-plugin-mkcert',
+    'web-vitals',
+    'zod',
+  ],
+  ignoreFiles: ['src/route-tree.gen.ts'],
+  ignoreIssues: {
+    'src/route-tree.gen.ts': ['types'],
+  },
+  ignoreUnresolved: ['typescript-plugin-css-modules'],
+  storybook: {
+    entry: [
+      '.storybook/{manager,preview,index,vitest.setup}.{js,jsx,ts,tsx}',
+      '.storybook/decorators/**/*.{ts,tsx}',
+      '.storybook/mock-router.ts',
+      'src/**/*.stories.@(js|jsx|mjs|ts|tsx)',
+      'src/**/*.mdx',
+    ],
+  },
+};
+
+export default config;
